@@ -10,6 +10,20 @@
 
 <body>
   <script>
+    function computerPlay() {
+      let output = '';
+      const randomNumber = Math.floor(Math.random() * 3 + 1);
+      if (randomNumber === 1) {
+        output = 'Rock';
+      } else if (randomNumber === 2) {
+        output = 'Paper';
+      } else {
+        output = 'Scissors';
+      }
+      return output;
+    }
+
+    console.log(computerPlay());
   </script>
 </body>
 
