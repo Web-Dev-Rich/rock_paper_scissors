@@ -18,9 +18,9 @@
 
     // 3. If `turnNum` is less than 5
     //   1. Initialise a `playerScore` variable to zero
-    let playerScore = 0;
+    let playerTally = 0;
     //   2. Initialise a `computerScore` variable to zero
-    let computerScore = 0;
+    let computerTally = 0;
     //   3. Prompt the user to enter "Rock", "Paper" or "Scissors", validate the input and store the value in a `playerSelection` variable
     //   4. Call a `computerPlay` function to return the computer's turn and store the returned value in a `computerSelection` variable
     //   5. A function `playRound` takes two arguments: `playerSelection` and `computerSelection`. This function declares the winner of the round, or a tie. If the player wins increment `playerScore` by 1, if the computer wins increment the `computerScore` variable by 1, if a tie do nothing
@@ -79,7 +79,7 @@
         //   * Declare the player the winner because `playerSelection` beats `computerSelection`
         console.log(`You win! ${playerSelectionClean} beats ${computerSelection}`);
         //   * Increment `playerScore` by 1 and exit
-        playerScore += 1;
+        playerTally += 1;
       } else {
         // * If `playerScore` equals 'Rock' and `computerScore` equals 'Paper' OR
         //   `playerScore` equals 'Paper' and `computerScore` equals 'Scissors' OR
@@ -88,7 +88,7 @@
         //   * Declare the computer the winner because `computerSelection` beats `playerSelection`
         console.log(`You lose! ${computerSelection} beats ${playerSelectionClean}`);
         //   * Increment `computerScore` by 1 and exit
-        computerScore += 1;
+        computerTally += 1;
       }
     }
     // ---
@@ -96,16 +96,23 @@
     // #### **A `declareResult` function that decides the winner (or tie) of a game**
 
     // **Parameters:** `playerScore`, `computerScore`
-
     // **Returns:** nothing
-
     // **Outputs:** A message to the console declaring the winner and scores of the game or if it was a tie
-
     // **Variables changed:** none
-
-    // * If `playerScore` and `computerScore` are equal declare a tie and say what the score was
-    // * If `playerScore` is greater than `computerScore` declare the player the winner and show the scores
-    // * Else declare the computer the winner and show the scores
+    function declareResult(playerScore, computerScore) {
+      // * If `playerScore` and `computerScore` are equal declare a tie and say what the score was
+      if (playerScore === computerScore) {
+        console.log(`The game was tied at ${playerScore} each`);
+      } else if (playerScore > computerScore) {
+        // * If `playerScore` is greater than `computerScore` declare the player the winner and show the scores
+        console.log(
+          `Well done! You win the game ${playerScore} to ${computerScore}`
+        );
+      } else {
+        // * Else declare the computer the winner and show the scores
+        console.log(`Boo! You lose the game ${computerScore} to ${playerScore}`);
+      }
+    }
   </script>
 </body>
 
