@@ -14,9 +14,13 @@
 
     // 1. Play a game
     // 2. Initialise a counter variable (`turnNum`) to zero
+    const turnNum = 0;
+
     // 3. If `turnNum` is less than 5
     //   1. Initialise a `playerScore` variable to zero
+    let playerScore = 0;
     //   2. Initialise a `computerScore` variable to zero
+    let computerScore = 0;
     //   3. Prompt the user to enter "Rock", "Paper" or "Scissors", validate the input and store the value in a `playerSelection` variable
     //   4. Call a `computerPlay` function to return the computer's turn and store the returned value in a `computerSelection` variable
     //   5. A function `playRound` takes two arguments: `playerSelection` and `computerSelection`. This function declares the winner of the round, or a tie. If the player wins increment `playerScore` by 1, if the computer wins increment the `computerScore` variable by 1, if a tie do nothing
@@ -57,30 +61,36 @@
     // **Returns:** nothing
     // **Outputs:** A message to the console declaring the winner of the turn or if it was a tie
     // **Variables changed:** `playerScore`, `computerScore` or neither if a tie
+
     function playRound(playerSelection, computerSelection) {
       const playerSelectionClean =
         playerSelection[0].toUpperCase() + playerSelection.slice(1).toLowerCase();
+      // * If `playerScore` and `computerScore` are equal declare a tie and exit
+      if (playerSelectionClean === computerSelection) {
+        console.log(`Its a tie! You both chose ${playerSelectionClean}`);
+      } else if (
+        // * If `playerScore` equals 'Rock' and `computerScore` equals 'Scissors' OR
+        //   `playerScore` equals 'Paper' and `computerScore` equals 'Rock' OR
+        //   `playerScore` equals 'Scissors' and `computerScore` equals 'Paper'
+        (playerSelectionClean === 'Rock' && computerSelection === 'Scissors') ||
+        (playerSelectionClean === 'Paper' && computerSelection === 'Rock') ||
+        (playerSelectionClean === 'Scissors' && computerSelection === 'Paper')
+      ) {
+        //   * Declare the player the winner because `playerSelection` beats `computerSelection`
+        console.log(`You win! ${playerSelectionClean} beats ${computerSelection}`);
+        //   * Increment `playerScore` by 1 and exit
+        playerScore += 1;
+      } else {
+        // * If `playerScore` equals 'Rock' and `computerScore` equals 'Paper' OR
+        //   `playerScore` equals 'Paper' and `computerScore` equals 'Scissors' OR
+        //   `playerScore` equals 'Scissors' and `computerScore` equals 'Rock'
+
+        //   * Declare the computer the winner because `computerSelection` beats `playerSelection`
+        console.log(`You lose! ${computerSelection} beats ${playerSelectionClean}`);
+        //   * Increment `computerScore` by 1 and exit
+        computerScore += 1;
+      }
     }
-
-    // * If `playerScore` and `computerScore` are equal declare a tie and exit
-    // * If `playerScore` equals 'Rock' and `computerScore` equals 'Scissors' OR
-
-    //   `playerScore` equals 'Paper' and `computerScore` equals 'Rock' OR
-
-    //   `playerScore` equals 'Scissors' and `computerScore` equals 'Paper'
-
-    //   * Declare the player the winner because `playerSelection` beats `computerSelection`
-    //   * Increment `playerScore` by 1 and exit
-
-    // * If `playerScore` equals 'Rock' and `computerScore` equals 'Paper' OR
-
-    //   `playerScore` equals 'Paper' and `computerScore` equals 'Scissors' OR
-
-    //   `playerScore` equals 'Scissors' and `computerScore` equals 'Rock'
-
-    //   * Declare the computer the winner because `computerSelection` beats `playerSelection`
-    //   * Increment `computerScore` by 1 and exit
-
     // ---
 
     // #### **A `declareResult` function that decides the winner (or tie) of a game**
