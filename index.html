@@ -10,27 +10,50 @@
 
 <body>
   <script>
-    // ### Pseudo-code
+    const playGame = prompt('Do you want to play? Enter y or n');
 
-    // 1. Play a game
-    // 2. Initialise a counter variable (`turnNum`) to zero
-    const turnNum = 0;
+    if (playGame === 'y' || playGame === 'Y') game();
 
-    // 3. If `turnNum` is less than 5
-    //   1. Initialise a `playerScore` variable to zero
-    let playerTally = 0;
-    //   2. Initialise a `computerScore` variable to zero
-    let computerTally = 0;
-    //   3. Prompt the user to enter "Rock", "Paper" or "Scissors", validate the input and store the value in a `playerSelection` variable
-    //   4. Call a `computerPlay` function to return the computer's turn and store the returned value in a `computerSelection` variable
-    //   5. A function `playRound` takes two arguments: `playerSelection` and `computerSelection`. This function declares the winner of the round, or a tie. If the player wins increment `playerScore` by 1, if the computer wins increment the `computerScore` variable by 1, if a tie do nothing
-    //   6. Call the `playRound` function
-    //   7. Increment `turnNum` by 1
-    // 4. If `turnNum` equals 5
-    //   1. Determine the game winner or tie by comparing the `playerScore` and `computerScore` variables and outputting a suitable message
-    // 5. Prompt the player to play another game? If yes play a game, if no quit the program with a goodbye message
+    function game() {
+      // Initialise a round counter variable to zero
+      let turnNum = 1;
 
-    // ---
+      // Initialise a variable to keep player's game score to zero
+      let playerTally = 0;
+
+      // Initialise a variable to keep computer's game score to zero
+      let computerTally = 0;
+
+      while (turnNum < 6) {
+        console.log(`Round ${turnNum} of 5`);
+        // Prompt the user to enter "Rock", "Paper" or "Scissors", validate the input and store the value in a variable
+        let playerChoice = prompt('Enter rock, paper or scissors');
+
+        while (
+          playerChoice.toLowerCase() !== 'rock' &&
+          playerChoice.toLowerCase() !== 'paper' &&
+          playerChoice.toLowerCase() !== 'scissors'
+        ) {
+          playerChoice = prompt('Try again! Enter rock, paper or scissors');
+        }
+
+        // Call a function to return the computer's turn and store the returned value in a  variable
+        const computerChoice = computerPlay();
+
+        // Call the `playRound` function
+        const winner = playRound(playerChoice, computerChoice);
+        if (winner === 'p') {
+          playerTally += 1;
+        } else if (winner === 'c') {
+          computerTally += 1;
+        }
+
+        // Increment `turnNum` by 1
+        turnNum += 1;
+      }
+      // Declare the game result
+      declareResult(playerTally, computerTally);
+    }
 
     // #### **A `computerPlay` function to return the computer's turn**
 
@@ -65,10 +88,14 @@
     function playRound(playerSelection, computerSelection) {
       const playerSelectionClean =
         playerSelection[0].toUpperCase() + playerSelection.slice(1).toLowerCase();
+      console.log(` You chose ${playerSelectionClean}`);
+      console.log(` Computer chose ${computerSelection}`);
       // * If `playerScore` and `computerScore` are equal declare a tie and exit
       if (playerSelectionClean === computerSelection) {
         console.log(`Its a tie! You both chose ${playerSelectionClean}`);
-      } else if (
+        return true;
+      }
+      if (
         // * If `playerScore` equals 'Rock' and `computerScore` equals 'Scissors' OR
         //   `playerScore` equals 'Paper' and `computerScore` equals 'Rock' OR
         //   `playerScore` equals 'Scissors' and `computerScore` equals 'Paper'
@@ -78,18 +105,17 @@
       ) {
         //   * Declare the player the winner because `playerSelection` beats `computerSelection`
         console.log(`You win! ${playerSelectionClean} beats ${computerSelection}`);
-        //   * Increment `playerScore` by 1 and exit
-        playerTally += 1;
-      } else {
-        // * If `playerScore` equals 'Rock' and `computerScore` equals 'Paper' OR
-        //   `playerScore` equals 'Paper' and `computerScore` equals 'Scissors' OR
-        //   `playerScore` equals 'Scissors' and `computerScore` equals 'Rock'
 
-        //   * Declare the computer the winner because `computerSelection` beats `playerSelection`
-        console.log(`You lose! ${computerSelection} beats ${playerSelectionClean}`);
-        //   * Increment `computerScore` by 1 and exit
-        computerTally += 1;
+        return 'p';
       }
+      // * If `playerScore` equals 'Rock' and `computerScore` equals 'Paper' OR
+      //   `playerScore` equals 'Paper' and `computerScore` equals 'Scissors' OR
+      //   `playerScore` equals 'Scissors' and `computerScore` equals 'Rock'
+
+      //   * Declare the computer the winner because `computerSelection` beats `playerSelection`
+      console.log(`You lose! ${computerSelection} beats ${playerSelectionClean}`);
+
+      return 'c';
     }
     // ---
 
