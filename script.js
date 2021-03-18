@@ -62,3 +62,9 @@ function declareResult(playerScore, computerScore) {
     console.log(`Boo! You lose the game ${computerScore} to ${playerScore}`);
   }
 }
+
+const buttons = document.querySelectorAll('button');
+console.log(buttons);
+buttons.forEach(button => {
+  button.addEventListener('click', () => console.log(button.id));
+});
