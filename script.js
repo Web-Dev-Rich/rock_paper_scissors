@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 // *** SETUP ***
 let playerTally = 0;
 let computerTally = 0;
