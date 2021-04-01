@@ -5,27 +5,15 @@ let computerTally = 0;
 const buttons = document.querySelectorAll('button[class="button"]');
 const scoresDisp = document.querySelector('.scores');
 scoresDisp.textContent = `Your score: ${playerTally} Computer score: ${computerTally}`;
+const choicesDisp = document.querySelector('.choices');
 const resultsDisp = document.querySelector('.results');
 const winnerDisp = document.querySelector('.winner');
 const playAgain = document.querySelector('.play-again');
+playAgain.classList.add('hidden');
+playAgain.removeEventListener('click', () => window.location.reload());
 
 buttons.forEach(button => {
-  button.addEventListener('click', e => {
-    const playerChoice = e.target.id;
-    const computerChoice = computerPlay();
-    const winner = playRound(playerChoice, computerChoice);
-
-    if (winner === 'p') {
-      playerTally += 1;
-    } else if (winner === 'c') {
-      computerTally += 1;
-    }
-    scoresDisp.textContent = `Your score: ${playerTally} Computer score: ${computerTally}`;
-
-    if (playerTally === 5 || computerTally === 5) {
-      declareResult(playerTally, computerTally);
-    }
-  });
+  button.addEventListener('click', handleClick);
 });
 
 // A `computerPlay` function creates the computers selection
@@ -37,11 +25,11 @@ function computerPlay() {
   let output = '';
   const randomNumber = Math.floor(Math.random() * 3 + 1);
   if (randomNumber === 1) {
-    output = 'Rock';
+    output = 'rock';
   } else if (randomNumber === 2) {
-    output = 'Paper';
+    output = 'paper';
   } else {
-    output = 'Scissors';
+    output = 'scissors';
   }
   return output;
 }
@@ -53,17 +41,17 @@ function computerPlay() {
 // **Variables changed:** None
 
 function playRound(playerSelection, computerSelection) {
-  resultsDisp.textContent = `You chose ${playerSelection} Computer chose ${computerSelection}`;
+  choicesDisp.textContent = `You chose ${playerSelection}, Computer chose ${computerSelection}`;
 
   if (playerSelection === computerSelection) {
-    resultsDisp.textContent = `Its a tie! You both chose ${playerSelection}`;
+    resultsDisp.textContent = `Its a tie!`;
     return true;
   }
 
   if (
-    (playerSelection === 'Rock' && computerSelection === 'Scissors') ||
-    (playerSelection === 'Paper' && computerSelection === 'Rock') ||
-    (playerSelection === 'Scissors' && computerSelection === 'Paper')
+    (playerSelection === 'rock' && computerSelection === 'scissors') ||
+    (playerSelection === 'paper' && computerSelection === 'rock') ||
+    (playerSelection === 'scissors' && computerSelection === 'paper')
   ) {
     resultsDisp.textContent = `You win! ${playerSelection} beats ${computerSelection}`;
     return 'p';
@@ -79,6 +67,10 @@ function playRound(playerSelection, computerSelection) {
 // **Outputs:** A message to the console declaring the winner and scores of the game or if it was a tie
 // **Variables changed:** None
 function declareResult(playerScore, computerScore) {
+  buttons.forEach(button => {
+    button.removeEventListener('click', handleClick);
+  });
+
   if (playerScore === computerScore) {
     winnerDisp.textContent = `The game was tied at ${playerScore} each`;
   } else if (playerScore > computerScore) {
@@ -87,4 +79,22 @@ function declareResult(playerScore, computerScore) {
     winnerDisp.textContent = `Boo! You lose the game ${computerScore} to ${playerScore}`;
   }
   playAgain.classList.remove('hidden');
+  playAgain.addEventListener('click', () => window.location.reload());
+}
+
+function handleClick(e) {
+  const playerChoice = e.target.id;
+  const computerChoice = computerPlay();
+  const winner = playRound(playerChoice, computerChoice);
+
+  if (winner === 'p') {
+    playerTally += 1;
+  } else if (winner === 'c') {
+    computerTally += 1;
+  }
+  scoresDisp.textContent = `Your score: ${playerTally} Computer score: ${computerTally}`;
+
+  if (playerTally === 5 || computerTally === 5) {
+    declareResult(playerTally, computerTally);
+  }
 }
