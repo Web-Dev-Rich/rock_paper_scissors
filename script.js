@@ -1,3 +1,33 @@
+// *** SETUP ***
+let playerTally = 0;
+let computerTally = 0;
+
+const buttons = document.querySelectorAll('button[class="button"]');
+const scoresDisp = document.querySelector('.scores');
+scoresDisp.textContent = `Your score: ${playerTally} Computer score: ${computerTally}`;
+const resultsDisp = document.querySelector('.results');
+const winnerDisp = document.querySelector('.winner');
+const playAgain = document.querySelector('.play-again');
+
+buttons.forEach(button => {
+  button.addEventListener('click', e => {
+    const playerChoice = e.target.id;
+    const computerChoice = computerPlay();
+    const winner = playRound(playerChoice, computerChoice);
+
+    if (winner === 'p') {
+      playerTally += 1;
+    } else if (winner === 'c') {
+      computerTally += 1;
+    }
+    scoresDisp.textContent = `Your score: ${playerTally} Computer score: ${computerTally}`;
+
+    if (playerTally === 5 || computerTally === 5) {
+      declareResult(playerTally, computerTally);
+    }
+  });
+});
+
 // A `computerPlay` function creates the computers selection
 // **Parameters:** None
 // **Returns:** 'Rock', 'Paper' or 'Scissors'
@@ -23,26 +53,23 @@ function computerPlay() {
 // **Variables changed:** None
 
 function playRound(playerSelection, computerSelection) {
-  const playerSelectionClean =
-    playerSelection[0].toUpperCase() + playerSelection.slice(1).toLowerCase();
-  console.log(` You chose ${playerSelectionClean}`);
-  console.log(` Computer chose ${computerSelection}`);
+  resultsDisp.textContent = `You chose ${playerSelection} Computer chose ${computerSelection}`;
 
-  if (playerSelectionClean === computerSelection) {
-    console.log(`Its a tie! You both chose ${playerSelectionClean}`);
+  if (playerSelection === computerSelection) {
+    resultsDisp.textContent = `Its a tie! You both chose ${playerSelection}`;
     return true;
   }
 
   if (
-    (playerSelectionClean === 'Rock' && computerSelection === 'Scissors') ||
-    (playerSelectionClean === 'Paper' && computerSelection === 'Rock') ||
-    (playerSelectionClean === 'Scissors' && computerSelection === 'Paper')
+    (playerSelection === 'Rock' && computerSelection === 'Scissors') ||
+    (playerSelection === 'Paper' && computerSelection === 'Rock') ||
+    (playerSelection === 'Scissors' && computerSelection === 'Paper')
   ) {
-    console.log(`You win! ${playerSelectionClean} beats ${computerSelection}`);
+    resultsDisp.textContent = `You win! ${playerSelection} beats ${computerSelection}`;
     return 'p';
   }
   // If none of the above conditions are met the computer must have won
-  console.log(`You lose! ${computerSelection} beats ${playerSelectionClean}`);
+  resultsDisp.textContent = `You lose! ${computerSelection} beats ${playerSelection}`;
   return 'c';
 }
 
@@ -53,18 +80,11 @@ function playRound(playerSelection, computerSelection) {
 // **Variables changed:** None
 function declareResult(playerScore, computerScore) {
   if (playerScore === computerScore) {
-    console.log(`The game was tied at ${playerScore} each`);
+    winnerDisp.textContent = `The game was tied at ${playerScore} each`;
   } else if (playerScore > computerScore) {
-    console.log(
-      `Well done! You win the game ${playerScore} to ${computerScore}`
-    );
+    winnerDisp.textContent = `Well done! You win the game ${playerScore} to ${computerScore}`;
   } else {
-    console.log(`Boo! You lose the game ${computerScore} to ${playerScore}`);
+    winnerDisp.textContent = `Boo! You lose the game ${computerScore} to ${playerScore}`;
   }
+  playAgain.classList.remove('hidden');
 }
-
-const buttons = document.querySelectorAll('button');
-console.log(buttons);
-buttons.forEach(button => {
-  button.addEventListener('click', () => console.log(button.id));
-});
